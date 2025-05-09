@@ -9,7 +9,7 @@ export default defineConfig({
     proxy: {
       // Proxy API requests
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://ecommerce-backend-1-npbm.onrender.com',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, '')
