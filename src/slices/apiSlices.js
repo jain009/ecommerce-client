@@ -1,23 +1,24 @@
+// apiSlices.js
 import { BASE_URL } from '../constants';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
     baseUrl: BASE_URL,
-    credentials: 'include', //  Important for sending cookies (session data)
-    // You can add a prepareHeaders function here for common headers
+    credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
-        // Example: Add an authorization header if the user is logged in
-        // const token = getState().auth.token;
-        // if (token) {
-        //   headers.set('Authorization', `Bearer ${token}`);
-        // }//Set content type
+        // Get token from either Redux state or localStorage
+        const token = getState().auth?.userInfo?.token || 
+                     JSON.parse(localStorage.getItem('userInfo'))?.token;
+
+        if (token) {
+            headers.set('Authorization', `Bearer ${token}`);
+        }
         return headers;
     },
 });
 
 export const apiSlice = createApi({
     baseQuery,
-    tagTypes: ['Product', 'Order', 'User'], // Define your tag types
-    endpoints: (builder) => ({}), //  Start with an empty endpoints object
-   
+    tagTypes: ['Product', 'Order', 'User'],
+    endpoints: () => ({}),
 });
