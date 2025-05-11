@@ -204,7 +204,10 @@ const router = createBrowserRouter(
         </Route>
       </Route>
     </>
-  )
+  ),
+  {
+    basename: import.meta.env.BASE_URL // Add this for Vite compatibility
+  }
 );
 
 const root = createRoot(document.getElementById('root')).render(
