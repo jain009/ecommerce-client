@@ -11,14 +11,27 @@ const api = axios.create({
 
 // Add a request interceptor
 api.interceptors.request.use(config => {
-  const token = localStorage.getItem('userInfo') 
-    ? JSON.parse(localStorage.getItem('userInfo')).token 
-    : null;
-  
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  try {
+    const userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+      const parsed = JSON.parse(userInfo);
+      const token = parsed?.token;
+      
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+        console.debug('Authorization header set successfully');
+      }
+    }
+  } catch (error) {
+    console.error('Token handling error:', error);
+    localStorage.removeItem('userInfo');
   }
   
+  // Remove CORS header setting (server responsibility)
+  config.withCredentials = true; // Only if using cookies
+  
+  return config;
+});
   // Required for CORS
   config.headers['Access-Control-Allow-Origin'] = 'https://jovial-tartufo-794ca6.netlify.app';
   config.withCredentials = true;
