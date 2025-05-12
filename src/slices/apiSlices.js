@@ -6,13 +6,29 @@ const baseQuery = fetchBaseQuery({
     baseUrl: BASE_URL,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
-        // Get token from either Redux state or localStorage
-        const token = getState().auth?.userInfo?.token || 
-                     JSON.parse(localStorage.getItem('userInfo'))?.token;
+        // Try both state and localStorage access patterns
+        const authState = getState().auth;
+        let token = authState?.userInfo?.token || authState?.token;
+
+        if (!token) {
+            try {
+                const storedData = localStorage.getItem('userInfo');
+                if (storedData) {
+                    const parsedData = JSON.parse(storedData);
+                    token = parsedData?.token || parsedData?.user?.token;
+                }
+            } catch (error) {
+                console.error('LocalStorage token parse error:', error);
+                localStorage.removeItem('userInfo');
+            }
+        }
 
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
+        } else {
+            console.warn('No auth token available');
         }
+
         return headers;
     },
 });
