@@ -10,16 +10,21 @@ const api = axios.create({
 });
 
 // Add a request interceptor
-api.interceptors.request.use(
-  config => {
-    // Can add auth tokens here if needed
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
+api.interceptors.request.use(config => {
+  const token = localStorage.getItem('userInfo') 
+    ? JSON.parse(localStorage.getItem('userInfo')).token 
+    : null;
+  
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-);
-
+  
+  // Required for CORS
+  config.headers['Access-Control-Allow-Origin'] = 'https://jovial-tartufo-794ca6.netlify.app';
+  config.withCredentials = true;
+  
+  return config;
+});
 // Add a response interceptor
 api.interceptors.response.use(
   response => response,
