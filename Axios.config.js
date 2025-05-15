@@ -33,7 +33,7 @@ api.interceptors.request.use(config => {
   return config;
 });
   // Required for CORS
-  config.headers['Access-Control-Allow-Origin'] = 'https://jovial-tartufo-794ca6.netlify.app';
+  config.headers['Access-Control-Allow-Origin'] = 'https://ecommerce-backend-1-npbm.onrender.com';
   config.withCredentials = true;
   
   return config;
