@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an axios instance with custom config
 const api = axios.create({
-  baseURL: 'https://ecommerce-backend-1-npbm.onrender.com',
+  baseURL: 'https://ecommerce-backend-1-npbm.onrender.com/api',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
