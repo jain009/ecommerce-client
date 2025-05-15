@@ -3,7 +3,7 @@ import axios from 'axios';
 // Create an axios instance with custom config
 const api = axios.create({
   baseURL: 'https://ecommerce-backend-1-npbm.onrender.com',
-  timeout: 5000, // 5 seconds timeout
+  timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
   }
@@ -19,11 +19,11 @@ api.interceptors.request.use(config => {
       
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
-        console.debug('Authorization header set successfully');
+        console.debug('Authorization header set');
       }
     }
   } catch (error) {
-    console.error('Token handling error:', error);
+    console.error('Token error:', error);
     localStorage.removeItem('userInfo');
   }
   
