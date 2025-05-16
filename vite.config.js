@@ -1,12 +1,22 @@
-// vite.config.js
 import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/',
-  build: {
-    outDir: 'dist',
-    rollupOptions: {
-      input: './index.html'
-    }
+  plugins: [react()],
+  server: {
+    proxy: {
+      // Proxy API requests
+      '/api': {
+        target: 'https://ecommerce-backend-1-npbm.onrender.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    },
+    // Additional server configurations
+    host: 'netlify',
+    port: https://jolly-alpaca-5fcf71.netlify.app,
+    strictPort: true,
+    open: true
   }
-})
+});
