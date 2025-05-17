@@ -1,57 +1,51 @@
-import { ORDERS_URL } from "../constants";
-import { apiSlice } from "./apiSlices";
+import { apiSlice } from "./apiSlices"
+import { ORDERS_URL, RAZORPAY_URL } from '../constants';
 
-export const ordersApiSlice = apiSlice.injectEndpoints({
+export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createOrder: builder.mutation({
       query: (order) => ({
         url: ORDERS_URL,
-        method: "POST",
-        credentials: "include",
+        method: 'POST',
         body: order,
+      }),
+    }),
+    getOrderDetails: builder.query({
+      query: (id) => ({
+        url: `${ORDERS_URL}/${id}`,
       }),
       keepUnusedDataFor: 5,
     }),
-    getOrderDetails: builder.query({
-      query: (orderId) => ({
-        url: `${ORDERS_URL}/${orderId}`,
+    payOrder: builder.mutation({
+      query: ({ orderId, details }) => ({
+        url: `${ORDERS_URL}/${orderId}/pay`,
+        method: 'PUT',
+        body: details,
       }),
-     
     }),
-
+    getPaypalClientId: builder.query({
+      query: () => ({
+        url: RAZORPAY_URL,
+      }),
+      keepUnusedDataFor: 5,
+    }),
     getMyOrders: builder.query({
       query: () => ({
         url: `${ORDERS_URL}/mine`,
-        credentials: "include",
       }),
-
       keepUnusedDataFor: 5,
     }),
     getOrders: builder.query({
       query: () => ({
         url: ORDERS_URL,
-
-        credentials: "include",
       }),
-
       keepUnusedDataFor: 5,
     }),
-   // ordersApiSlice.js
-payOrder: builder.mutation({
-  query: ({ orderId, details }) => ({ 
-    url: `${ORDERS_URL}/${orderId}/pay`,
-    method: 'PUT',
-    credentials: 'include',
-    body: details,
-  })
-}),
     deliverOrder: builder.mutation({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}/deliver`,
-        credentials: "include",
-        method: "PUT",
+        method: 'PUT',
       }),
-      keepUnusedDataFor: 5,
     }),
   }),
 });
@@ -59,8 +53,9 @@ payOrder: builder.mutation({
 export const {
   useCreateOrderMutation,
   useGetOrderDetailsQuery,
+  usePayOrderMutation,
+  useGetPaypalClientIdQuery,
   useGetMyOrdersQuery,
   useGetOrdersQuery,
   useDeliverOrderMutation,
-  usePayOrderMutation,
-} = ordersApiSlice;
+} = orderApiSlice;
