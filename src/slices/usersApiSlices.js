@@ -29,14 +29,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/profile`,
         method: "PUT",
         body: data,
-        credentials: "include",
       }),
     }),
     getUsers: builder.query({
       query: () => ({
         url: USERS_URL,
         method: "GET",
-        credentials: "include",
+        
       }),
       providesTags: ["User"],
       keepUnusedDataFor: 5,
@@ -67,7 +66,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             url: `${USERS_URL}/${data.userId}`,
             method: 'PUT',
             body: data,
-            credentials: "include",
           }),
           invalidatesTags: ['User'],
         }),
