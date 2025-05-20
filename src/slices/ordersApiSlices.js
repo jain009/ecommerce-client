@@ -4,10 +4,10 @@ import { ORDERS_URL, RAZORPAY_URL } from '../constants';
 export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createOrder: builder.mutation({
-      query: (order) => ({
+       query: (orderData) => ({
         url: ORDERS_URL,
         method: 'POST',
-        body: order,
+        body: orderData,
       }),
     }),
     getOrderDetails: builder.query({
