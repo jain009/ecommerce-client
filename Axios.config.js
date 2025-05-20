@@ -6,7 +6,8 @@ const api = axios.create({
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
+  withCredentials = true,
 });
 
 // Add a request interceptor
@@ -26,17 +27,9 @@ api.interceptors.request.use(config => {
     console.error('Token error:', error);
     localStorage.removeItem('userInfo');
   }
-  
-  // Remove CORS header setting (server responsibility)
-  config.withCredentials = true; // Only if using cookies
-  
   return config;
 });
-  // Required for CORS
-  config.headers['Access-Control-Allow-Origin'] = 'https://ecommerce-backend-1-npbm.onrender.com';
-  config.withCredentials = true;
-  
-  return config;
+  (error) => Promise.reject(error)
 });
 // Add a response interceptor
 api.interceptors.response.use(
