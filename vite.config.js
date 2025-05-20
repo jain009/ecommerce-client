@@ -9,7 +9,7 @@ export default defineConfig({
       '/api': {
         target: 'https://ecommerce-backend-1-npbm.onrender.com',
         changeOrigin: true,
-        secure: false,
+        secure: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }
     },
